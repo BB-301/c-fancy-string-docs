@@ -1,4 +1,4 @@
-.TH "include/fancy_string.h" 3 "Mon Dec 4 2023" "Version 0.1.0" "lib<fancy_string>" \" -*- nroff -*-
+.TH "include/fancy_string.h" 3 "Wed Dec 6 2023" "Version 0.1.0" "lib<fancy_string>" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,6 +13,12 @@ include/fancy_string.h
 \fC#include <stdio\&.h>\fP
 .br
 \fC#include <stdbool\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <stddef\&.h>\fP
+.br
+\fC#include <sys/types\&.h>\fP
 .br
 
 .SS "Data Structures"
@@ -471,7 +477,7 @@ A type (i\&.e\&., a structure), returned by the \fBfancy_string_regex_match_info
 .PP
 \fBNote\fP
 .RS 4
-This value has a '1-position offset (to the right)' from the last matched character\&. For instance, let's say that we had the string 'This is a test\&.', and that we matched ' is ', we will get \fC{ \&.start = 4, \&.end = 8 }\fP\&. 
+This value has a '1-position offset (to the right)' from the last matched character\&. For instance, let's say that we had the string 'This is a test\&.', and that we matched ' is ', then we will get \fC{ \&.start = 4, \&.end = 8 }\fP\&. 
 .RE
 .PP
 
@@ -490,8 +496,6 @@ A value of \fC-1\fP indicates that the index specified when calling \fBfancy_str
 .br
 .PP
 \fBsize_t\fP \fIstart\fP The 'start' position of the match at position \fCindex\fP \&. 
-.br
-
 .br
 .PP
 .RE
@@ -515,7 +519,7 @@ Once the array object is no longer needed, it is the application's job to call \
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_destroy\fP 
+\fBfancy_string_array_destroy\fP, \fBfancy_string_array_create\fP 
 .RE
 .PP
 
@@ -526,9 +530,9 @@ The signature a callback function needs to implement to be allowed to be passed 
 .PP
 \fBParameters\fP
 .RS 4
-\fIstring\fP A pointer to the \fBfancy_string_t\fP instance that is subject to being filtered in or out, which instance is found at position \fCindex\fP in \fCarray\fP \&. 
+\fIstring\fP A pointer to the \fBfancy_string_t\fP instance that is subject to being filtered, which instance is found at position \fCindex\fP in \fCarray\fP \&. 
 .br
-\fIindex\fP The position (i\&.e\&., index) of \fCstring\fP in \fCarray\fP\&. 
+\fIindex\fP The position (i\&.e\&., index) of \fCstring\fP in \fCarray\fP \&. 
 .br
 \fIarray\fP A pointer to the \fBfancy_string_array_t\fP instance inside of which \fCstring\fP exists\&. 
 .br
@@ -542,7 +546,7 @@ The signature a callback function needs to implement to be allowed to be passed 
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_filter\fP \fBfancy_string_array_filtered\fP 
+\fBfancy_string_array_filter\fP, \fBfancy_string_array_filtered\fP 
 .RE
 .PP
 
@@ -580,9 +584,9 @@ The signature a callback function needs to implement to be allowed to be passed 
 .PP
 \fBParameters\fP
 .RS 4
-\fIstring\fP A pointer to the \fBfancy_string_t\fP instance on which to operate, which is found at position \fCindex\fP in \fCarray\fP\&. 
+\fIstring\fP A pointer to the \fBfancy_string_t\fP instance on which to operate, which is found at position \fCindex\fP in the array object \fCarray\fP \&. 
 .br
-\fIindex\fP The position (i\&.e\&., index) of \fCstring\fP in the \fCarray\fP\&. 
+\fIindex\fP The position (i\&.e\&., index) of \fCstring\fP in \fCarray\fP \&. 
 .br
 \fIarray\fP A pointer to the \fBfancy_string_array_t\fP instance inside of which \fCstring\fP exists\&. 
 .br
@@ -602,7 +606,7 @@ The signature a callback function needs to implement to be allowed to be passed 
 .PP
 \fBParameters\fP
 .RS 4
-\fIstring\fP A pointer to the \fBfancy_string_t\fP instance found at position \fCindex\fP in \fCarray\fP \&. 
+\fIstring\fP A pointer to the \fBfancy_string_t\fP instance found at position \fCindex\fP in the array object \fCarray\fP \&. 
 .br
 \fIindex\fP The position of \fCstring\fP in \fCarray\fP \&. 
 .br
@@ -629,7 +633,7 @@ An enumeration whose members can be used to specify, through the \fBfancy_string
 .PP
 \fBWarning\fP
 .RS 4
-The memory usage tracking feature is meant to be used during development only, as a tool for aiding in tracking down potential memory leaks linked to bad library usage (i\&.e\&., not destroying objects before they go out of scope)\&. This feature has not been optimized and will incur substantial overhead when enabled (even if optimized, there would still be incurred overhead)\&. 
+The memory usage tracking feature is meant to be used during development only, as a tool for aiding in tracking down potential memory leaks linked to erroneous library usage (i\&.e\&., not destroying objects before they go out of scope)\&. This feature has not been optimized and will incur substantial overhead when enabled (even if optimized, there would still be incurred overhead)\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -666,7 +670,7 @@ Once the regex object is no longer needed, it is the application's job to call \
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_regex_destroy\fP 
+\fBfancy_string_regex_destroy\fP, \fBfancy_string_regex_create\fP 
 .RE
 .PP
 
@@ -677,7 +681,7 @@ The signature a callback function needs to implement to be allowed to be passed 
 .PP
 \fBParameters\fP
 .RS 4
-\fImatch\fP A pointer to the \fBfancy_string_t\fP instance on which to operate, which corresponds to the matched string at position \fCstart\fP to \fCend\fP (where end is 1 position more than the last character of the match) inside the regular expression object's string object\&. 
+\fImatch\fP A pointer to the \fBfancy_string_t\fP instance on which to operate, which corresponds to the matched string at position \fCstart\fP to \fCend\fP (where \fCend\fP is 1 position more than the last character of the match) inside the regular expression object's string object\&. 
 .br
 \fIstart\fP The start position of the match in the regular expression object's string object\&. 
 .br
@@ -713,7 +717,7 @@ The signature a callback function needs to implement to be allowed to be passed 
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_sort\fP \fBfancy_string_array_sorted\fP 
+\fBfancy_string_array_sort\fP, \fBfancy_string_array_sorted\fP 
 .RE
 .PP
 
@@ -734,7 +738,7 @@ Once the string object is no longer needed, it is the application's job to call 
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_destroy\fP 
+\fBfancy_string_destroy\fP, \fBfancy_string_create\fP 
 .RE
 .PP
 
@@ -747,7 +751,7 @@ An enumeration whose members can be used to specify, through the \fBfancy_string
 .PP
 \fBWarning\fP
 .RS 4
-The memory usage tracking feature is meant to be used during development only, as a tool for aiding in tracking down potential memory leaks linked to bad library usage (i\&.e\&., not destroying objects before they go out of scope)\&. This feature has not been optimized and will incur substantial overhead when enabled (even if optimized, there would still be incurred overhead)\&. 
+The memory usage tracking feature is meant to be used during development only, as a tool for aiding in tracking down potential memory leaks linked to erroneous library usage (i\&.e\&., not destroying objects before they go out of scope)\&. This feature has not been optimized and will incur substantial overhead when enabled (even if optimized, there would still be incurred overhead)\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -768,7 +772,7 @@ Tracks memory usage and stores the tracking data in a private static variable fo
 .PP
 \fBNote\fP
 .RS 4
-This mode should be preferred to \fCFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP for single threaded application, since there is less overhead associated with it (the latter uses a mutex each time library memory is allocated, re-allocated, and freed throughout the whole process)\&. 
+This mode should be preferred to \fCFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP for single threaded applications, since there is less overhead associated with it (the latter uses a mutex each time library memory is allocated, re-allocated, and freed throughout the whole process)\&. 
 .RE
 .PP
 \fBWarning\fP
@@ -779,11 +783,11 @@ When this mode is used, the library objects should not be shared between threads
 
 .TP
 \fB\fIFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC \fP\fP
-Tracks memory usage and stores the tracking data in a private static variable shared by all threads\&. Internally, synchronization is achieved using \fCpthread_mutex_t\fP\&. 
+Tracks memory usage and stores the tracking data in a private static variable shared by all threads\&. Internally, synchronization is achieved using \fBpthread_mutex_t\fP\&. 
 .PP
 \fBNote\fP
 .RS 4
-Of the three (two) modes, this mode is that one that has the most overhead associated with it, because all of the process' memory is allocated, re-allocated, and freed goes through a mutex lock for the whole process\&. 
+Of the three (two) modes, this mode is the one that has the most overhead associated with it, because all of the process' memory that is allocated, re-allocated, and freed goes through a mutex lock for the whole process\&. 
 .RE
 .PP
 
@@ -792,18 +796,13 @@ Of the three (two) modes, this mode is that one that has the most overhead assoc
 .SS "\fBvoid\fP fancy_string_append (\fBfancy_string_t\fP *const self, \fBfancy_string_t\fP const *const string)"
 
 .PP
-Appends a string object's data to the current string object's internal state\&. 
+Appends a string object's data (in this case \fCstring\fP ) to the current string object's internal state (i\&.e\&., to \fCself\fP )\&. 
 .PP
 \fBParameters\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance to which to append\&. 
 .br
-\fIstring\fP A pointer to another \fBfancy_string_t\fP instance whose internal data is to be appended to \fCself\fP\&.
-.RE
-.PP
-\fBNote\fP
-.RS 4
-\fCstring\fP 's data gets copied\&.
+\fIstring\fP A pointer to another \fBfancy_string_t\fP instance whose internal data is to be copied and appended to \fCself\fP 's internal data\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -815,18 +814,13 @@ Appends a string object's data to the current string object's internal state\&.
 .SS "\fBvoid\fP fancy_string_append_value (\fBfancy_string_t\fP *const self, \fBchar\fP const *const value)"
 
 .PP
-Appends a value to the current string object's internal state\&. 
+Appends a (string) value to the current string object's internal state\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance to which to append \fCvalue\fP\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance to which to append a copy of \fCvalue\fP \&. 
 .br
-\fIvalue\fP The value to be appended to the internal string data\&.
-.RE
-.PP
-\fBNote\fP
-.RS 4
-The \fCvalue\fP gets copied\&.
+\fIvalue\fP The value (i\&.e\&., a pointer to a null-terminated string) to be appended to the internal string data\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -838,13 +832,13 @@ The \fCvalue\fP gets copied\&.
 .SS "\fBvoid\fP fancy_string_array_append (\fBfancy_string_array_t\fP *const self, \fBfancy_string_array_t\fP const *const array)"
 
 .PP
-Appends the elements of another array object (i\&.e\&., \fCarray\fP) into the current array object (i\&.e\&., \fCself\fP)\&. 
+Appends the elements of another array object (i\&.e\&., \fCarray\fP ) into the current array object (i\&.e\&., \fCself\fP )\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to which to append a copy of \fCarray\fP 's elements\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to which to append copies of the \fCarray\fP 's elements\&. 
 .br
-\fIarray\fP A pointer to another \fBfancy_string_array_t\fP instance whose \fBfancy_string_t\fP elements are to be copied and appended to \fCself\fP\&. 
+\fIarray\fP A pointer to another \fBfancy_string_array_t\fP instance whose \fBfancy_string_t\fP elements are to be copied and appended to \fCself\fP \&. 
 .RE
 .PP
 \fBSee also\fP
@@ -867,14 +861,19 @@ Appends the elements of another array object (i\&.e\&., \fCarray\fP) into the cu
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_append\fP \fBfancy_string_array_destroy\fP 
+\fBfancy_string_array_append\fP, \fBfancy_string_array_destroy\fP 
+.RE
+.PP
+\fBDeprecated\fP
+.RS 4
+Looking back, this method should not have existed from the beginning, since it is not consistent with other methods whose names are ending with \fC_and_destroy\fP\&. 
 .RE
 .PP
 
 .SS "\fBvoid\fP fancy_string_array_clear (\fBfancy_string_array_t\fP *const self)"
 
 .PP
-Clears the array; i\&.e\&., destroys all of the internal \fBfancy_string_t\fP instances and frees the memory used to track those instances\&. 
+Clears (i\&.e, empties) the array; i\&.e\&., destroys all of the internal \fBfancy_string_t\fP instances and frees the internal memory that was allocated to track those instances\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -885,7 +884,7 @@ Clears the array; i\&.e\&., destroys all of the internal \fBfancy_string_t\fP in
 .SS "\fBfancy_string_array_t\fP * fancy_string_array_clone (\fBfancy_string_array_t\fP const *const self)"
 
 .PP
-Clones a string array object\&. 
+Clones an array object\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -894,14 +893,14 @@ Clones a string array object\&.
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_array_t\fP* A pointer to the newly created, memory-independent array object that is a clone of \fCself\fP\&. 
+\fBfancy_string_array_t\fP* A pointer to the newly created, memory-independent array object that is a clone of \fCself\fP \&. 
 .RE
 .PP
 
 .SS "\fBfancy_string_array_t\fP * fancy_string_array_create (\fBvoid\fP)"
 
 .PP
-Instantiates an empty string array object\&. 
+Instantiates an empty array object (i\&.e, a list whose components are string objects)\&. 
 .PP
 \fBReturns\fP
 .RS 4
@@ -912,13 +911,13 @@ Instantiates an empty string array object\&.
 .SS "\fBfancy_string_array_t\fP * fancy_string_array_create_with_values (\fBchar\fP const *const first_value,  \&.\&.\&.)"
 
 .PP
-Instantiates an array object with a variable list of string values\&. 
+Instantiates an array object with a variable list of string values (i\&.e\&., pointers to a null-terminated strings)\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIfirst_value\fP A pointer to the first string value argument to be used to instantiate a memory-independent string object to be added first to the array\&. 
+\fIfirst_value\fP A pointer to the first string value (i\&.e\&., a null-terminated string) argument to be used to instantiate a memory-independent string object to be added first to the array\&. 
 .br
-\fI\&.\&.\&.\fP A variable number of string pointers (i\&.e\&., \fCchar *\fP) to be used, in the order they appear, in the same way as \fCfirst_value\fP \&. \fBImportant:\fP The last value should be the \fBNULL\fP pointer, unless \fCfirst_value\fP itself is \fBNULL\fP , in which case all other arguments will be ignored and an empty array will be returned\&. 
+\fI\&.\&.\&.\fP A variable number of null-terminated string pointers (i\&.e\&., \fCchar *\fP) to be used, in the order they appear, in the same way as \fCfirst_value\fP \&. \fBImportant:\fP The last value should be the \fBNULL\fP pointer, unless \fCfirst_value\fP itself is \fBNULL\fP , in which case all other arguments will be ignored and an empty array will be returned\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -928,7 +927,7 @@ Instantiates an array object with a variable list of string values\&.
 .PP
 \fBWarning\fP
 .RS 4
-Internally, this method is based on the macros defined by \fBstdarg\&.h\fP, which means that a way of knowing where to stop, when reading the variable list of argument, is needed\&. The adopted approach here is therefore to add the \fBNULL\fP pointer as the last argument\&. If \fBNULL\fP is omitted, the result will be unpredictable\&. 
+Internally, this method is based on the macros defined by \fBstdarg\&.h\fP , which means that a way of knowing where to stop, when reading the variable list of argument, is needed\&. The adopted approach here is therefore to add the \fBNULL\fP pointer as the last argument\&. If \fBNULL\fP is omitted, the result will be unpredictable\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -983,17 +982,17 @@ Destroys the array object; i\&.e\&., frees the memory that was allocated for the
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A reference to the \fBfancy_string_array_t\fP instance to be destroyed\&.
+\fIself\fP A reference to the \fBfancy_string_array_t\fP instance to be destroyed\&. 
 .RE
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_destroy\fP
+\fBfancy_string_destroy\fP 
 .RE
 .PP
 \fBWarning\fP
 .RS 4
-This method should only be called once per object, else a double-free error will incur\&. 
+This method should only be called once per object, else a double-free error might incur\&. 
 .RE
 .PP
 
@@ -1030,11 +1029,11 @@ See the documentation for \fBfancy_string_array_find_index\fP for an example on 
 .SS "\fBvoid\fP fancy_string_array_filter (\fBfancy_string_array_t\fP *const self, \fBfancy_string_filter_t\fP fn, \fBvoid\fP * context)"
 
 .PP
-Filters (i\&.e\&., updates) the array object's internal list's elements based on the rules established by the \fCfn\fP callback\&. 
+Filters (therefore likely mutates) the array object's internal list's elements based on the rules established by the \fCfn\fP callback\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be filtered\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance whose elements are to be filtered\&. 
 .br
 \fIfn\fP A pointer to the filtering function to be used\&. 
 .br
@@ -1043,7 +1042,7 @@ Filters (i\&.e\&., updates) the array object's internal list's elements based on
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_filter_t\fP \fBfancy_string_array_filtered\fP 
+\fBfancy_string_filter_t\fP, \fBfancy_string_array_filtered\fP 
 .RE
 .PP
 \fBNote\fP
@@ -1116,7 +1115,7 @@ Clones the array object (i\&.e\&., \fCself\fP ) and performs filtering on that c
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be cloned and whose clone to be sorted\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be cloned and whose clone's elements to be filtered\&. 
 .br
 \fIfn\fP A pointer to the filtering function to be used\&. 
 .br
@@ -1130,7 +1129,7 @@ Clones the array object (i\&.e\&., \fCself\fP ) and performs filtering on that c
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_filter_t\fP \fBfancy_string_array_filter\fP 
+\fBfancy_string_filter_t\fP, \fBfancy_string_array_filter\fP 
 .RE
 .PP
 \fBNote\fP
@@ -1146,7 +1145,7 @@ Finds the first element in the array object's internal list for which \fCfn\fP r
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance in which to look for a matching element\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance inside of which to look for a matching element\&. 
 .br
 \fIfn\fP A pointer to a function conforming to the \fBfancy_string_find_t\fP interface, which function gets called (internally) until the first match (i\&.e\&., \fCtrue\fP value) is returned\&. 
 .br
@@ -1155,7 +1154,7 @@ Finds the first element in the array object's internal list for which \fCfn\fP r
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP* A pointer to a memory-independent copy of the first string object in \fCself\fP for which \fCfn\fP returned \fCtrue\fP\&. the \fBNULL\fP pointer is returned if all \fCfn\fP calls returned \fCfalse\fP, which indicates that not a single match was found\&. 
+\fBfancy_string_t\fP* A pointer to a memory-independent copy of the first string object in \fCself\fP for which \fCfn\fP returned \fCtrue\fP\&. The \fBNULL\fP pointer is returned if all \fCfn\fP calls returned \fCfalse\fP, which indicates that not a single match was found\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -1176,7 +1175,7 @@ Finds the first element in the array object's internal list for which \fCfn\fP r
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance in which to look for a matching element\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance inside of which to look for a matching element\&. 
 .br
 \fIfn\fP A pointer to a function conforming to the \fBfancy_string_find_t\fP interface, which function gets called (internally) until the first match (i\&.e\&., \fCtrue\fP value) is returned\&. 
 .br
@@ -1279,7 +1278,7 @@ Finds the last element in the array object's internal list for which \fCfn\fP re
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance in which to look for a matching element\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance inside of which to look for a matching element\&. 
 .br
 \fIfn\fP A pointer to a function conforming to the \fBfancy_string_find_t\fP interface, which function gets called (internally; starting from the last element to the first) until a match (i\&.e\&., \fCtrue\fP value) is returned\&. 
 .br
@@ -1288,7 +1287,7 @@ Finds the last element in the array object's internal list for which \fCfn\fP re
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP* A pointer to a memory-independent copy of the first string object in \fCself\fP for which \fCfn\fP returned \fCtrue\fP\&. the \fBNULL\fP pointer is returned if all \fCfn\fP calls returned \fCfalse\fP, which indicates that not a single match was found\&. 
+\fBfancy_string_t\fP* A pointer to a memory-independent copy of the first string object in \fCself\fP for which \fCfn\fP returned \fCtrue\fP\&. The \fBNULL\fP pointer is returned if all \fCfn\fP calls returned \fCfalse\fP, which indicates that not a single match was found\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -1309,7 +1308,7 @@ Finds the last element in the array object's internal list for which \fCfn\fP re
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance in which to look for the last matching element\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance inside of which to look for the last matching element\&. 
 .br
 \fIfn\fP A pointer to a function conforming to the \fBfancy_string_find_t\fP interface, which function gets called (internally; starting from the last element to the first) until a match (i\&.e\&., \fCtrue\fP value) is returned\&. 
 .br
@@ -1356,7 +1355,7 @@ Returns a memory-independent copy of the array object's internal list's first st
 .SS "\fBchar\fP * fancy_string_array_first_value (\fBfancy_string_array_t\fP const *const self)"
 
 .PP
-Returns a memory-independent copy of the array object's internal list's first string object's internal string value\&. 
+Returns a memory-independent copy of the array object's internal list's first string object's internal string value (i\&.e\&., a pointer to a null-terminated string)\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -1365,7 +1364,7 @@ Returns a memory-independent copy of the array object's internal list's first st
 .PP
 \fBReturns\fP
 .RS 4
-\fBchar\fP* A pointer to string data that was copied from the first element of the array object's internal list\&. If the array object is empty, the \fBNULL\fP pointer is returned\&. 
+\fBchar\fP* A pointer to null-terminated string data that was copied from the first element of the array object's internal list\&. If the array object is empty, the \fBNULL\fP pointer is returned\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -1381,11 +1380,11 @@ Iterates over the array object's elements and calls the \fCfn\fP callback with e
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance whose internal list's elements are to be iterated over with the specified callback\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance whose internal list's elements are to be iterated over with the specified callback \fCfn\fP\&. 
 .br
 \fIfn\fP A pointer to the function to be called for each element in the array\&. 
 .br
-\fIcontext\fP An application-defined context object that will be passed to \fCfn\fP, along with each individual \fBfancy_string_t\fP instance contained in the array object's internal list\&. 
+\fIcontext\fP An application-defined context object that will be passed to \fCfn\fP , along with each individual \fBfancy_string_t\fP instance contained in the array object's internal list\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -1470,7 +1469,7 @@ Returns a memory-independent copy of the \fBfancy_string_t\fP instance located a
 .PP
 \fBReturns\fP
 .RS 4
-A memory-independent copy of the \fBfancy_string_t\fP instance at position \fCindex\fP \&. If \fCindex\fP is out of bounds, then the \fBNULL\fP pointer is returned\&. 
+\fBfancy_string_t\fP* A memory-independent copy of the \fBfancy_string_t\fP instance at position \fCindex\fP \&. If \fCindex\fP is out of bounds, then the \fBNULL\fP pointer is returned\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -1493,7 +1492,7 @@ Returns a memory-independent copy of the \fBfancy_string_t\fP instance's interna
 .PP
 \fBReturns\fP
 .RS 4
-\fBchar\fP* A memory-independent copy of the \fBfancy_string_t\fP instance's internal state at position \fCindex\fP \&. If \fCindex\fP is out of bounds, then the \fBNULL\fP pointer is returned\&. 
+\fBchar\fP* A memory-independent copy (i\&.e\&., a pointer to a null-terminated string) of the \fBfancy_string_t\fP instance's internal state at position \fCindex\fP \&. If \fCindex\fP is out of bounds, then the \fBNULL\fP pointer is returned\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -1574,7 +1573,7 @@ Checks whether the value \fCvalue\fP is contained inside the array object's inte
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be searched for the presence of at least one matching element\&. 
 .br
-\fIvalue\fP A pointer to value for which to search\&. 
+\fIvalue\fP A pointer to a null-terminated string value for which to search\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -1673,9 +1672,9 @@ Finds the index of the first element in the array object's internal list whose i
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be searched for the presence of an element (the first one) whose internal value matches \fCstring\fP 's internal value\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be searched for the presence of an element (the first one) whose internal value matches \fCvalue\fP \&. 
 .br
-\fIvalue\fP A pointer to the value to be searched for in \fCself\fP 's internal list\&. 
+\fIvalue\fP A pointer to a null-terminated string value for which to search in \fCself\fP 's internal list\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -1723,7 +1722,7 @@ Instantiates a \fBfancy_string_t\fP object, with its internal state set as \fCva
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_array_t\fP instance into which to insert the new string object\&. 
 .br
-\fIvalue\fP The internal state of the string object to be created add inserter into the array object's internal list\&. 
+\fIvalue\fP A pointer to a null-terminated string, which corresponds to the internal state of the string object to be created and inserted into the array object's internal list\&. 
 .br
 \fIindex\fP The position at which to insert the new string object into the array object's internal list\&. 
 .RE
@@ -1746,7 +1745,7 @@ Checks whether the array is empty\&.
 .PP
 \fBReturns\fP
 .RS 4
-\fBbool\fP A boolean value that is \fCtrue\fP if the array is empty, else it is set to \fCfalse\fP\&. 
+\fBbool\fP A boolean value that is \fCtrue\fP if the array is empty (else it is set to \fCfalse\fP)\&. 
 .RE
 .PP
 
@@ -1782,7 +1781,7 @@ Creates (and returns a pointer to) a \fBfancy_string_t\fP instance and populates
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be 'joined' into a string object\&. 
 .br
-\fIseparator\fP A pointer to a string to be used as separator while joining\&. 
+\fIseparator\fP A pointer to a null-terminated string to be used as separator while joining\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -1826,7 +1825,7 @@ Finds the index of the last element in the array object's internal list whose in
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be searched for the presence of an element (the last one) whose internal value matches \fCstring\fP 's internal value\&. 
 .br
-\fIstring\fP A pointer to the \fBfancy_string_t\fP instance whose internal value is to be looked for in \fCself\fP 's internal list\&. 
+\fIstring\fP A pointer to the \fBfancy_string_t\fP instance whose internal value is to be sought in \fCself\fP 's internal list\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -1852,9 +1851,9 @@ Finds the index of the last element in the array object's internal list whose in
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be searched for the presence of an element (the last one) whose internal value matches \fCstring\fP 's internal value\&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be searched for the presence of an element (the last one) whose internal value matches \fCvalue\fP \&. 
 .br
-\fIvalue\fP A pointer to the value to be searched for in \fCself\fP 's internal list\&. 
+\fIvalue\fP A pointer to a null-terminated string value for which to search in \fCself\fP 's internal list\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -1876,7 +1875,7 @@ See the documentation for \fBfancy_string_array_index_of\fP for an example on ho
 .SS "\fBchar\fP * fancy_string_array_last_value (\fBfancy_string_array_t\fP const *const self)"
 
 .PP
-Returns a memory-independent copy of the array object's internal list's last string object's internal string value\&. 
+Returns a memory-independent copy of the array object's internal list's last string object's internal string value (i\&.e\&., a pointer to a null-terminated string)\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -1885,7 +1884,7 @@ Returns a memory-independent copy of the array object's internal list's last str
 .PP
 \fBReturns\fP
 .RS 4
-\fBchar\fP* A pointer to string data that was copied from the last element of the array object's internal list\&. If the array object is empty, the \fBNULL\fP pointer is returned\&. 
+\fBchar\fP* A pointer to null-terminated string data that was copied from the last element of the array object's internal list\&. If the array object is empty, the \fBNULL\fP pointer is returned\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -1920,7 +1919,7 @@ Iterates over the array object's elements and calls the \fCfn\fP callback with e
 .PP
 \fBWarning\fP
 .RS 4
-The function implementing \fBfancy_string_mapped_t\fP should never return a pointer to the \fBfancy_string_t\fP instance that was passed in as an argument\&. Compiling with the \fC-Werror\fP flag, however, should prevent that from happening\&. 
+The function implementing \fBfancy_string_mapped_t\fP should never return a pointer to the \fBfancy_string_t\fP instance that was passed in as an argument\&. Compiling with the \fC-Wall\fP and \fC-Werror\fP flags, however, should prevent that from happening\&. 
 .RE
 .PP
 \fBExample:\fP
@@ -2029,7 +2028,7 @@ Removes the last element from the array object's internal list and returns a poi
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP A pointer to the removed element, if any, else the \fBNULL\fP pointer\&. 
+\fBfancy_string_t\fP* A pointer to the removed element, if any, else the \fBNULL\fP pointer\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -2068,7 +2067,7 @@ Prints (i\&.e\&., writes) the array's string contents to the specified \fCstream
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to be printed\&. 
 .br
-\fIstream\fP The stream to which to write (e\&.g\&., \fCstdout\fP)\&. 
+\fIstream\fP The stream to which to write (e\&.g\&., \fBstdout\fP )\&. 
 .br
 \fIdebug\fP Whether to use the debug format (\fCtrue\fP) or not (\fCfalse\fP)\&. With the debug format, additional information about the object and size is printed, while the standard format simply writes the internal string objects data as is\&. 
 .RE
@@ -2086,7 +2085,7 @@ Appends a memory-independent copy of the string object \fCstring\fP at the end o
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance onto which to push a copy of \fCstring\fP \&. 
+\fIself\fP A pointer to the \fBfancy_string_array_t\fP instance to which to append a copy of \fCstring\fP \&. 
 .br
 \fIstring\fP A pointer to the \fBfancy_string_t\fP instance which is to be copied and that copy appended to the array object's internal list\&. 
 .RE
@@ -2106,7 +2105,7 @@ Instantiates a string object, with internal state set to \fCvalue\fP , and appen
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_array_t\fP instance onto which to push the new string object\&. 
 .br
-\fIvalue\fP The value with which to populate the new \fBfancy_string_t\fP instance\&. 
+\fIvalue\fP The value (i\&.e\&., a pointer to a null-terminated string) with which to populate the new \fBfancy_string_t\fP instance\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -2124,9 +2123,9 @@ Instantiates a variable number of string objects with internal states set to \fC
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_array_t\fP instance at the end of which to insert the new string objects\&. 
 .br
-\fIfirst_value\fP The value with which to populate the first new \fBfancy_string_t\fP instance\&. 
+\fIfirst_value\fP The value (i\&.e\&., a pointer to a null-terminated string) with which to populate the first new \fBfancy_string_t\fP instance\&. 
 .br
-\fI\&.\&.\&.\fP A variable number of string pointers (i\&.e\&., \fCchar *\fP) to be used, in the order they appear, in the same way as \fCfirst_value\fP \&. \fBImportant:\fP The last value should be the \fBNULL\fP pointer, unless \fCfirst_value\fP itself is \fBNULL\fP, in which case all other arguments will be ignored and an the array object won't be modified\&. 
+\fI\&.\&.\&.\fP A variable number of null-terminated string pointers (i\&.e\&., \fCchar *\fP) to be used, in the order they appear, in the same way as \fCfirst_value\fP \&. \fBImportant:\fP The last value should be the \fBNULL\fP pointer, unless \fCfirst_value\fP itself is \fBNULL\fP, in which case all other arguments will be ignored and an the array object won't be modified\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -2136,7 +2135,7 @@ Instantiates a variable number of string objects with internal states set to \fC
 .PP
 \fBWarning\fP
 .RS 4
-Internally, this method is based on the macros defined by \fBstdarg\&.h\fP, which means that a way of knowing where to stop, when reading the variable list of argument, is needed\&. The adopted approach here is therefore to add the \fBNULL\fP pointer as the last argument\&. If \fBNULL\fP is omitted, the result will be unpredictable\&. 
+Internally, this method is based on the macros defined by \fBstdarg\&.h\fP , which means that a way of knowing where to stop, when reading the variable list of argument, is needed\&. The adopted approach here is therefore to add the \fBNULL\fP pointer as the last argument\&. If \fBNULL\fP is omitted, the result will be unpredictable\&. 
 .RE
 .PP
 \fBNote\fP
@@ -2159,7 +2158,7 @@ Removes and returns the pointer to the \fBfancy_string_t\fP instance located at 
 .PP
 \fBReturns\fP
 .RS 4
-A pointer to the removed \fBfancy_string_t\fP instance, if any, else the \fBNULL\fP pointer\&. 
+\fBfancy_string_t\fP A pointer to the removed \fBfancy_string_t\fP instance, if any, else the \fBNULL\fP pointer\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -2187,7 +2186,7 @@ Removes and destroys the \fBfancy_string_t\fP instance located at position \fCin
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_remove\fP \fBfancy_string_destroy\fP 
+\fBfancy_string_array_remove\fP, \fBfancy_string_destroy\fP 
 .RE
 .PP
 \fBNote\fP
@@ -2215,7 +2214,7 @@ Reverses the order of the elements in the array object's internal list\&.
 .SS "\fBfancy_string_array_t\fP * fancy_string_array_reversed (\fBfancy_string_array_t\fP const *const self)"
 
 .PP
-Clones the array object and reverse that clone before returning it\&. 
+Clones the array object and reverses the clone's element before returning it\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -2236,7 +2235,7 @@ Clones the array object and reverse that clone before returning it\&.
 .SS "\fBfancy_string_t\fP * fancy_string_array_shift (\fBfancy_string_array_t\fP *const self)"
 
 .PP
-Remove the first element from the array object's internal list returns a pointer to it\&. 
+Removes the first element from the array object's internal list and returns a pointer to it\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -2245,12 +2244,12 @@ Remove the first element from the array object's internal list returns a pointer
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP A pointer to the removed element, if any, else the \fBNULL\fP pointer\&. 
+\fBfancy_string_t\fP* A pointer to the removed element, if any, else the \fBNULL\fP pointer\&. 
 .RE
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_shift_and_destroy\fP \fBfancy_string_destroy\fP 
+\fBfancy_string_array_shift_and_destroy\fP, \fBfancy_string_destroy\fP 
 .RE
 .PP
 \fBWarning\fP
@@ -2271,7 +2270,7 @@ Removes and destroys the array object's internal list's first element\&.
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_shift\fP 
+\fBfancy_string_array_shift\fP, \fBfancy_string_destroy\fP 
 .RE
 .PP
 
@@ -2307,7 +2306,7 @@ Slices the array object \fCself\fP based on the \fCstart\fP and \fCend\fP positi
 .PP
 \fBNote\fP
 .RS 4
-This method is very permissive with regards to \fCstart\fP and \fCend\fP \&. Setting \fCstart\fP to \fC-1\fP will be interpreted as \fC0\fP, while setting \fCend\fP to \fC-1\fP will be interpreted as \fCn\fP (where \fCn\fP is the number of elements in the array object's internal list)\&. Setting \fCstart\fP such that it is greater than \fCend\fP will simply result in those two values being swapped\&. If \fCstart\fP is out of bounds, the array object will simply get cleared up If \fCend\fP is out of bounds, the slice will retain every element starting at position \fCstart\fP \&. 
+This method is very permissive with regards to \fCstart\fP and \fCend\fP \&. Setting \fCstart\fP to \fC-1\fP will be interpreted as \fC0\fP, while setting \fCend\fP to \fC-1\fP will be interpreted as \fCn\fP (where \fCn\fP is the number of elements in the array object's internal list)\&. Setting \fCstart\fP such that it is greater than \fCend\fP will simply result in those two values being swapped with one another\&. If \fCstart\fP is out of bounds, the array object will simply get cleared up (i\&.e\&., emptied)\&. If \fCend\fP is out of bounds, the slice will retain every element starting at position \fCstart\fP \&. 
 .RE
 .PP
 \fBSee also\fP
@@ -2337,7 +2336,7 @@ Creates a memory-independent slice of the array object\&.
 .PP
 \fBNote\fP
 .RS 4
-This method is very permissive with regards to \fCstart\fP and \fCend\fP \&. Setting \fCstart\fP to \fC-1\fP will be interpreted as \fC0\fP, while setting \fCend\fP to \fC-1\fP will be interpreted as \fCn\fP (where \fCn\fP is the number of elements in the array object's internal list)\&. Setting \fCstart\fP such that it is greater than \fCend\fP will simply result in those two values being swapped\&. If \fCstart\fP is out of bounds, an empty array object will be returned\&. If \fCself\fP is empty, an empty slice will be returned, regardless of the values of \fCstart\fP and \fCend\fP \&. If \fCend\fP is out of bounds, the slice will contain a copy of every element starting at position \fCstart\fP \&. 
+This method is very permissive with regards to \fCstart\fP and \fCend\fP \&. Setting \fCstart\fP to \fC-1\fP will be interpreted as \fC0\fP, while setting \fCend\fP to \fC-1\fP will be interpreted as \fCn\fP (where \fCn\fP is the number of elements in the array object's internal list)\&. Setting \fCstart\fP such that it is greater than \fCend\fP will simply result in those two values being swapped with one another\&. If \fCstart\fP is out of bounds, an empty array object will be returned\&. If \fCself\fP is empty, an empty slice will be returned, regardless of the values of \fCstart\fP and \fCend\fP \&. If \fCend\fP is out of bounds, the slice will contain a copy of every element starting at position \fCstart\fP \&. 
 .RE
 .PP
 \fBSee also\fP
@@ -2392,7 +2391,7 @@ Sorts the array object's internal list's elements based on the rules established
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_sort_t\fP \fBfancy_string_array_sorted\fP 
+\fBfancy_string_sort_t\fP, \fBfancy_string_array_sorted\fP 
 .RE
 .PP
 \fBExample:\fP
@@ -2558,7 +2557,7 @@ Creates a sorted copy of \fCself\fP \&.
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_sort_t\fP \fBfancy_string_array_sort\fP 
+\fBfancy_string_sort_t\fP, \fBfancy_string_array_sort\fP 
 .RE
 .PP
 \fBNote\fP
@@ -2606,7 +2605,7 @@ Splices the array object's internal list and returns the removed elements (if an
 .br
 \fIdelete_count\fP The number of items to be removed (and returned) from the array object's internal element list\&. If set to \fC0\fP, no elements will be removed\&. If set to \fC-1\fP, everything starting at position \fCindex\fP , up to the end, will be removed (and returned)\&. 
 .br
-\fIoptional_new_strings\fP An pointer to an optional \fBfancy_string_array_t\fP instance containing elements to be inserted (in their original order) at position \fCindex\fP\&. This argument should be set to the \fBNULL\fP pointer if no elements need to be inserted\&. 
+\fIoptional_new_strings\fP A pointer to an optional \fBfancy_string_array_t\fP instance containing elements to be inserted (in their respective order) at position \fCindex\fP \&. This argument should be set to the \fBNULL\fP pointer if no elements need to be inserted\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -2621,7 +2620,7 @@ If \fCoptional_new_strings\fP is non-NULL and non-empty and the insertion positi
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_splice_and_destroy\fP \fBfancy_string_array_spliced\fP 
+\fBfancy_string_array_splice_and_destroy\fP, \fBfancy_string_array_spliced\fP 
 .RE
 .PP
 \fBExample:\fP
@@ -2731,7 +2730,7 @@ Splices the array object's internal list and destroys the removed elements (if a
 .br
 \fIdelete_count\fP The number of items to be removed (and destroyed) from the array object's internal element list\&. If set to \fC0\fP, no elements will be removed\&. If set to \fC-1\fP, everything starting at position \fCindex\fP , up to the end, will be removed (and destroyed)\&. 
 .br
-\fIoptional_new_strings\fP An pointer to an optional \fBfancy_string_array_t\fP instance containing elements to be inserted (in their original order) at position \fCindex\fP\&. This argument should be set to the \fBNULL\fP pointer if no elements need to be inserted\&. 
+\fIoptional_new_strings\fP A pointer to an optional \fBfancy_string_array_t\fP instance containing elements to be inserted (in their respective order) at position \fCindex\fP \&. This argument should be set to the \fBNULL\fP pointer if no elements need to be inserted\&. 
 .RE
 .PP
 \fBNote\fP
@@ -2741,7 +2740,7 @@ If \fCoptional_new_strings\fP is non-NULL and non-empty and the insertion positi
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_splice\fP \fBfancy_string_array_spliced\fP 
+\fBfancy_string_array_splice\fP, \fBfancy_string_array_spliced\fP 
 .RE
 .PP
 
@@ -2752,13 +2751,13 @@ Clones \fCself\fP and calls \fBfancy_string_array_splice_and_destroy\fP on that 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP The array object to be cloned and whose clone to be spliced\&. 
+\fIself\fP The array object to be cloned and whose clone is to be spliced\&. 
 .br
 \fIindex\fP The position at which to splice\&. 
 .br
 \fIdelete_count\fP The number of items to be removed (and destroyed) from the clone\&. If set to \fC0\fP, no elements will be removed\&. If set to \fC-1\fP, everything starting at position \fCindex\fP , up to the end, will be removed (and destroyed)\&. 
 .br
-\fIoptional_new_strings\fP An pointer to an optional \fBfancy_string_array_t\fP instance containing elements to be inserted (in their original order) at position \fCindex\fP\&. This argument should be set to the \fBNULL\fP pointer if no elements need to be inserted\&. 
+\fIoptional_new_strings\fP A pointer to an optional \fBfancy_string_array_t\fP instance containing elements to be inserted (in their respective order) at position \fCindex\fP \&. This argument should be set to the \fBNULL\fP pointer if no elements need to be inserted\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -2773,30 +2772,25 @@ If \fCoptional_new_strings\fP is non-NULL and non-empty and the insertion positi
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_array_splice_and_destroy\fP \fBfancy_string_array_splice\fP 
+\fBfancy_string_array_splice_and_destroy\fP, \fBfancy_string_array_splice\fP 
 .RE
 .PP
 
 .SS "\fBvoid\fP fancy_string_clear (\fBfancy_string_t\fP *const self)"
 
 .PP
-Clears the internal string data\&. 
+Clears the internal string data (i\&.e\&., makes \fCself\fP an empty string object)\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be cleared\&.
-.RE
-.PP
-\fBNote\fP
-.RS 4
-This method can be called multiple times without problem\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be cleared (i\&.e\&., emptied)\&. 
 .RE
 .PP
 
 .SS "\fBfancy_string_t\fP * fancy_string_clone (\fBfancy_string_t\fP const *const self)"
 
 .PP
-Creates a memory-independent copy of the \fBfancy_string_t\fP instance (i\&.e\&., \fCself\fP)\&. 
+Creates a memory-independent copy of the \fBfancy_string_t\fP instance (i\&.e\&., \fCself\fP )\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -2805,7 +2799,7 @@ Creates a memory-independent copy of the \fBfancy_string_t\fP instance (i\&.e\&.
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP* A memory-independent copy of \fCself\fP\&. 
+\fBfancy_string_t\fP* A memory-independent copy of \fCself\fP \&. 
 .RE
 .PP
 
@@ -2816,14 +2810,14 @@ Checks whether the string object's data contains at least one occurrence of \fCs
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance to check\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be checked\&. 
 .br
 \fIstring\fP A pointer to another \fBfancy_string_t\fP instance whose internal value is searched inside \fCself\fP 's value\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBbool\fP A value indicating whether a match was found (\fCtrue\fP) or not (\fCfalse\fP)\&. 
+\fBbool\fP A boolean value indicating whether a match was found (\fCtrue\fP) or not (\fCfalse\fP)\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -2835,18 +2829,18 @@ Checks whether the string object's data contains at least one occurrence of \fCs
 .SS "\fBbool\fP fancy_string_contains_value (\fBfancy_string_t\fP const *const self, \fBchar\fP const *const value)"
 
 .PP
-Checks whether the string object's data contains at least one occurrence of \fCvalue\fP\&. 
+Checks whether the string object's data contains at least one occurrence of \fCvalue\fP \&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance to check\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be checked\&. 
 .br
-\fIvalue\fP The value for which to check inside \fCself\fP \&. 
+\fIvalue\fP The value (i\&.e\&., a pointer to a null-terminated string) for which to check inside \fCself\fP \&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBbool\fP A value indicating whether \fCvalue\fP was found (\fCtrue\fP) or not (\fCfalse\fP)\&. 
+\fBbool\fP A boolean value indicating whether \fCvalue\fP was found (\fCtrue\fP) or not (\fCfalse\fP)\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -2862,7 +2856,7 @@ Instantiates a string object with its internal state specified by the \fCvalue\f
 .PP
 \fBParameters\fP
 .RS 4
-\fIvalue\fP The initial state of the string object\&. 
+\fIvalue\fP The initial state of the string object (i\&.e\&., a pointer to a null-terminated string)\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -2872,7 +2866,7 @@ Instantiates a string object with its internal state specified by the \fCvalue\f
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_create_empty\fP, \fBfancy_string_create_repeat\fP, \fBfancy_string_from_stream\fP 
+\fBfancy_string_create_empty\fP, \fBfancy_string_create_repeat\fP, \fBfancy_string_from_stream\fP, \fBfancy_string_from_stream_next_line\fP 
 .RE
 .PP
 
@@ -2899,7 +2893,7 @@ Similarly to \fBfancy_string_create()\fP, instantiates a string object, but repe
 .PP
 \fBParameters\fP
 .RS 4
-\fIvalue\fP The initial state of the string object\&. 
+\fIvalue\fP The initial state of the string object (i\&.e\&., a pointer to a null-terminated string)\&. 
 .br
 \fIn_repeat\fP The number of times to repeat the string object\&. 
 .RE
@@ -2918,16 +2912,16 @@ Similarly to \fBfancy_string_create()\fP, instantiates a string object, but repe
 .SS "\fBvoid\fP fancy_string_destroy (\fBfancy_string_t\fP *const self)"
 
 .PP
-Destroys the string object; i\&.e\&., frees the memory that was allocated for the internal string data\&. 
+Destroys the string object; i\&.e\&., frees the memory that was allocated for the internal string data, as well as the memory allocated for the container itself\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be destroyed\&.
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be destroyed\&. 
 .RE
 .PP
 \fBWarning\fP
 .RS 4
-This method should only be called once per object, else a double-free error will incur\&. 
+This method should only be called once per object, else a double-free error might incur\&. 
 .RE
 .PP
 
@@ -2945,7 +2939,7 @@ Checks whether the string object's internal value ends with \fCstring\fP 's inte
 .PP
 \fBReturns\fP
 .RS 4
-\fBbool\fP A value indicating whether the object's data ends with \fCstring\fP 's internal value (\fCtrue\fP) or not (\fCfalse\fP)\&. 
+\fBbool\fP A boolean value indicating whether the object's data ends with \fCstring\fP 's internal value (\fCtrue\fP) or not (\fCfalse\fP)\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -2957,44 +2951,23 @@ Checks whether the string object's internal value ends with \fCstring\fP 's inte
 .SS "\fBbool\fP fancy_string_ends_with_value (\fBfancy_string_t\fP const *const self, \fBchar\fP const *const value)"
 
 .PP
-Checks whether the string object's internal value ends with \fCvalue\fP\&. 
+Checks whether the string object's internal value ends with \fCvalue\fP \&. 
 .PP
 \fBParameters\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance to be checked\&. 
 .br
-\fIvalue\fP A value against which to check for 'trailing equality'\&. 
+\fIvalue\fP A value (i\&.e\&., a pointer to a null-terminated string) against which to check for 'trailing equality'\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBbool\fP A value indicating whether the object's data ends with \fCvalue\fP (\fCtrue\fP) or not (\fCfalse\fP)\&. 
+\fBbool\fP A boolean value indicating whether the object's data ends with \fCvalue\fP (\fCtrue\fP) or not (\fCfalse\fP)\&. 
 .RE
 .PP
 \fBSee also\fP
 .RS 4
 \fBfancy_string_ends_with\fP 
-.RE
-.PP
-\fBExample:\fP
-.RS 4
-
-.PP
-.nf
-#include <assert\&.h>
-#include "fancy_string\&.h"
-
-int main(void)
-{
-    fancy_string_t *s = fancy_string_create("Hello, World!");
-    assert(fancy_string_ends_with_value(s, "World!"));
-    fancy_string_destroy(s);
-    return 0;
-}
-
-.fi
-.PP
- 
 .RE
 .PP
 
@@ -3007,12 +2980,12 @@ Checks whether the string object's internal value equals to \fCstring\fP 's inte
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance for which to check for equality\&. 
 .br
-\fIstring\fP A pointer to another \fBfancy_string_t\fP instance against which to check for equality 
+\fIstring\fP A pointer to another \fBfancy_string_t\fP instance against which to check for equality\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBbool\fP A value indicating whether equality was found (\fCtrue\fP) or not (\fCfalse\fP)\&. 
+\fBbool\fP A boolean value indicating whether equality was found (\fCtrue\fP) or not (\fCfalse\fP)\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3024,13 +2997,13 @@ Checks whether the string object's internal value equals to \fCstring\fP 's inte
 .SS "\fBbool\fP fancy_string_equals_value (\fBfancy_string_t\fP const *const self, \fBchar\fP const *const value)"
 
 .PP
-Checks whether the string object's internal value equals to \fCvalue\fP\&. 
+Checks whether the string object's internal value equals to \fCvalue\fP \&. 
 .PP
 \fBParameters\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance for which to check for equality\&. 
 .br
-\fIvalue\fP The value against which to check for equality\&. 
+\fIvalue\fP The value (i\&.e\&., a pointer to a null-terminated string) against which to check for equality\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -3051,7 +3024,7 @@ Instantiates a string object and fills its internal state with the string data r
 .PP
 \fBParameters\fP
 .RS 4
-\fIstream\fP A pointer to readable stream (e\&.g\&. a file descriptor that has been opened for reading)\&. 
+\fIstream\fP A pointer to readable stream (e\&.g\&., a file pointer that has been opened for reading)\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -3061,7 +3034,7 @@ Instantiates a string object and fills its internal state with the string data r
 .PP
 \fBNote\fP
 .RS 4
-Internally, this method calls \fBfgetc()\fP repeatedly until \fCEOF\fP is reached, after which it calls \fBfclose\fP to close the stream\&. That method assumes that \fCvalue\fP has been opened for reading\&. 
+Internally, this method calls \fBfgetc()\fP repeatedly until \fBEOF\fP is reached, after which it calls \fBfclose()\fP to close the stream\&. This method assumes that \fCvalue\fP has been opened for reading\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3071,7 +3044,9 @@ Internally, this method calls \fBfgetc()\fP repeatedly until \fCEOF\fP is reache
 .PP
 \fBWarning\fP
 .RS 4
-Trying to read from \fCstream\fP if the latter has not been opened with read permission will crash the application\&. 
+- Trying to read from \fCstream\fP if the latter has not been opened with read permission will crash the application\&. 
+.PP
+- Internally, this method makes calls to \fBgetc_unlocked()\fP until \fBEOF\fP is returned, but the method does not bother setting nor checking (and resetting) \fBerrno\fP before and after calling \fBgetc_unlocked()\fP\&. 
 .RE
 .PP
 
@@ -3082,12 +3057,12 @@ Reads the next line from the \fCstream\fP and instantiates a string object with 
 .PP
 \fBParameters\fP
 .RS 4
-\fIstream\fP A pointer to a readable stream from which to get the next line\&. 
+\fIstream\fP A pointer to a readable stream from which to get the next line (e\&.g\&., a file pointer that has been opened for reading)\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP* A pointer to the created string object which contains a copy of the value read on \fCstream\fP , or the \fBNULL\fP pointer if the passed \fCstream\fP argument was \fBNULL\fP or \fBgetline()\fP, which is used internally to read the next line, returned \fC-1\fP\&. 
+\fBfancy_string_t\fP* A pointer to the created string object which contains a copy of the value read on \fCstream\fP , or the \fBNULL\fP pointer if the passed \fCstream\fP argument was \fBNULL\fP or if \fBgetline()\fP, which is used internally to read the next line, returned \fC-1\fP\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3102,9 +3077,7 @@ Unlike \fBfancy_string_from_stream()\fP, this method will not close the stream b
 .PP
 \fBWarning\fP
 .RS 4
-- Trying to read from \fCstream\fP if the latter has not been opened with read permission will crash the application\&. 
-.PP
-- Internally, this method makes calls to \fBgetc_unlocked()\fP until \fBEOF\fP is returned, but the method does not bother setting nor checking (and resetting) \fBerrno\fP before and after calling \fBgetc_unlocked()\fP\&. 
+Trying to read from \fCstream\fP if the latter has not been opened with read permission will crash the application\&. 
 .RE
 .PP
 \fBExample:\fP
@@ -3219,9 +3192,9 @@ Finds and returns the index of the first occurrence of \fCvalue\fP in the string
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance for which to find the first matching index for \fCvalue\fP\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance for which to find the first matching index for \fCvalue\fP \&. 
 .br
-\fIvalue\fP The value whose first occurrence is being sought inside the string object's data\&. 
+\fIvalue\fP The value (i\&.e\&., a pointer to a null-terminated string) whose first occurrence is being sought inside the string object's data\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -3258,11 +3231,11 @@ Populates its arguments with the library's version\&.
 .PP
 \fBParameters\fP
 .RS 4
-\fImajor\fP A pointer used to store the major version number\&. 
+\fImajor\fP A pointer used to store the library's major version number\&. 
 .br
-\fIminor\fP A pointer used to store the minor version number\&. 
+\fIminor\fP A pointer used to store the library's minor version number\&. 
 .br
-\fIrevision\fP A pointer used to store the revision number\&.
+\fIrevision\fP A pointer used to store the library's revision number\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3278,7 +3251,7 @@ Prints (i\&.e\&., writes) the library's version to the specified \fCstream\fP\&.
 .PP
 \fBParameters\fP
 .RS 4
-\fIstream\fP The stream to which to write the library version (e\&.g\&. \fCstdout\fP)\&. 
+\fIstream\fP The stream to which to write the library version (e\&.g\&. \fBstdout\fP )\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3299,7 +3272,7 @@ Applies a lowercase transformation to the string object's internal data\&.
 .PP
 \fBNote\fP
 .RS 4
-Internally, this method uses the \fBtolower()\fP function defined in the C Standard Library \fC\fBctype\&.h\fP\fP header file\&. This means, among other things, that lowercasing of accented characters may not behave as expected\&. For instance, depending on the implementation, a character such as \fCÀ\fP will likely not be transformed to \fCà\fP\&. 
+Internally, this method uses the \fBtolower()\fP function defined in the C Standard Library \fBctype\&.h\fP header file\&. This means, among other things, that lowercasing of accented characters may not behave as expected\&. For instance, depending on the implementation, a character such as \fCÀ\fP will likely not be transformed to \fCà\fP\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3325,7 +3298,7 @@ Creates a new string object whose internal data corresponds to a copy of \fCself
 .PP
 \fBNote\fP
 .RS 4
-Internally, this method uses the \fBtolower()\fP function defined in the C Standard Library \fC\fBctype\&.h\fP\fP header file\&. This means, among other things, that lowercasing of accented characters may not behave as expected\&. For instance, depending on the implementation, a character such as \fCÀ\fP will likely not be transformed to \fCà\fP\&. 
+Internally, this method uses the \fBtolower()\fP function defined in the C Standard Library \fBctype\&.h\fP header file\&. This means, among other things, that lowercasing of accented characters may not behave as expected\&. For instance, depending on the implementation, a character such as \fCÀ\fP will likely not be transformed to \fCà\fP\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3341,11 +3314,11 @@ A 'static method' that can be used to 'print' a summary of the library's memory 
 .PP
 \fBNote\fP
 .RS 4
-- If \fBfancy_string_memory_usage_mode_t\fP was set to \fCFANCY_STRING_MEMORY_USAGE_MODE_NONE\fP, no summary will be printed (only a warning message)\&. 
+- If \fBfancy_string_memory_usage_mode_t\fP was set to \fBFANCY_STRING_MEMORY_USAGE_MODE_NONE\fP , no summary will be printed (only a warning message)\&. 
 .PP
-- If \fBfancy_string_memory_usage_mode_t\fP was set to \fCFANCY_STRING_MEMORY_USAGE_MODE_THREAD_LOCAL\fP, a summary of the memory used for the 'calling thread' will be printed\&. 
+- If \fBfancy_string_memory_usage_mode_t\fP was set to \fBFANCY_STRING_MEMORY_USAGE_MODE_THREAD_LOCAL\fP , a summary of the memory used for the 'calling thread' will be printed\&. 
 .PP
-- If \fBfancy_string_memory_usage_mode_t\fP was set to \fCFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP, a summary of the memory used for the whole process (regardless of the 'calling thread') will be printed\&. 
+- If \fBfancy_string_memory_usage_mode_t\fP was set to \fBFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP , a summary of the memory used for the whole process (regardless of the 'calling thread') will be printed\&. 
 .RE
 .PP
 \fBParameters\fP
@@ -3361,16 +3334,16 @@ A 'static method' that retrieves and returns the amount of memory allocated by t
 .PP
 \fBNote\fP
 .RS 4
-- If \fBfancy_string_memory_usage_mode_t\fP was set to \fCFANCY_STRING_MEMORY_USAGE_MODE_NONE\fP, the returned value will alway be \fC0\fP\&. 
+- If \fBfancy_string_memory_usage_mode_t\fP was set to \fBFANCY_STRING_MEMORY_USAGE_MODE_NONE\fP , the returned value will always be \fC0\fP\&. 
 .PP
-- If \fBfancy_string_memory_usage_mode_t\fP was set to \fCFANCY_STRING_MEMORY_USAGE_MODE_THREAD_LOCAL\fP, the returned value will be the total memory used for the 'calling thread'\&. 
+- If \fBfancy_string_memory_usage_mode_t\fP was set to \fBFANCY_STRING_MEMORY_USAGE_MODE_THREAD_LOCAL\fP , the returned value will be the total memory used for the 'calling thread'\&. 
 .PP
-- If \fBfancy_string_memory_usage_mode_t\fP was set to \fCFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP, the returned value will be the total memory used for the whole process, regardless of who is the 'calling thread'\&. 
+- If \fBfancy_string_memory_usage_mode_t\fP was set to \fBFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP , the returned value will be the total memory used for the whole process, regardless of who is the 'calling thread'\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-The total amount of memory (in bytes) currently in use by the library (not including the memory used by the memory tracking mechanism, however; only for the string, array, and regular expression objects)\&. 
+\fBsize_t\fP The total amount of memory (in bytes) currently in use by the library (not including the memory used by the memory tracking mechanism, however; only for the string, array, and regular expression objects)\&. 
 .RE
 .PP
 
@@ -3381,9 +3354,9 @@ If called, specifies the memory usage tracking mode to be used by the library\&.
 .PP
 \fBNote\fP
 .RS 4
-- This method does not need to be called if tracking is not required\&. By default, the library uses \fCFANCY_STRING_MEMORY_USAGE_MODE_NONE\fP, so calling the method with the latter value is equivalent to doing nothing\&. 
+- This method does not need to be called if tracking is not required\&. By default, the library uses \fBFANCY_STRING_MEMORY_USAGE_MODE_NONE\fP , so calling the method with the latter value is equivalent to doing nothing\&. 
 .PP
-- If tracking is required, this method should be called (only once) as soon as possible, before any library objects are created\&. The two tracking options are \fCFANCY_STRING_MEMORY_USAGE_MODE_THREAD_LOCAL\fP and \fCFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP\&. See \fBfancy_string_memory_usage_mode_t\fP for more information on what these modes do\&. 
+- If tracking is required, this method should be called (only once) as soon as possible, before any library objects are created\&. The two tracking options are \fBFANCY_STRING_MEMORY_USAGE_MODE_THREAD_LOCAL\fP and \fBFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP \&. See \fBfancy_string_memory_usage_mode_t\fP for more information on what these modes do\&. 
 .RE
 .PP
 \fBParameters\fP
@@ -3398,7 +3371,7 @@ If called, specifies the memory usage tracking mode to be used by the library\&.
 .PP
 \fBWarning\fP
 .RS 4
-This method should be called at most once per process, else the application will likely crash\&. In fact, calling the method any number of times with \fCFANCY_STRING_MEMORY_USAGE_MODE_NONE\fP will do nothing, but once either \fCFANCY_STRING_MEMORY_USAGE_MODE_THREAD_LOCAL\fP or \fCFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP have been set, the method will crash if called one more time\&. 
+This method should be called at most once per process, else the application will likely crash\&. In fact, calling the method any number of times with \fBFANCY_STRING_MEMORY_USAGE_MODE_NONE\fP will do nothing, but once either \fBFANCY_STRING_MEMORY_USAGE_MODE_THREAD_LOCAL\fP or \fBFANCY_STRING_MEMORY_USAGE_MODE_GLOBAL_SYNC\fP have been set, the method will crash if called again\&. 
 .RE
 .PP
 \fBExample:\fP
@@ -3538,7 +3511,7 @@ static void *thread_callback(void *context)
 .SS "\fBfancy_string_memory_usage_mode_t\fP fancy_string_memory_usage_mode (\fBvoid\fP)"
 
 .PP
-Retrieves and returns the current memory usage mode used by the library, for the current process\&.\&. 
+Retrieves and returns the current memory usage mode used by the library, for the current process\&. 
 .PP
 \fBReturns\fP
 .RS 4
@@ -3549,7 +3522,7 @@ Retrieves and returns the current memory usage mode used by the library, for the
 .SS "\fBvoid\fP fancy_string_pad_end (\fBfancy_string_t\fP *const self, \fBsize_t\fP target_size, \fBchar\fP value)"
 
 .PP
-Pads the right-hand side of the string with the specified character (i\&.e\&., \fCvalue\fP)\&. 
+Pads the right-hand side of the string with the specified character (i\&.e\&., \fCvalue\fP )\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -3582,7 +3555,7 @@ Pads the left-hand side of the string with the specified character (i\&.e\&., \f
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_padded_start\fP
+\fBfancy_string_padded_start\fP 
 .RE
 .PP
 \fBExample:\fP
@@ -3664,18 +3637,13 @@ Creates a string object whose left-hand side has been padded with the specified 
 .SS "\fBvoid\fP fancy_string_prepend (\fBfancy_string_t\fP *const self, \fBfancy_string_t\fP const *const string)"
 
 .PP
-Prepends a string object's data to the current string object's internal state\&. 
+Prepends a string object's data (in this case \fCstring\fP ) to the current string object's internal state (i\&.e\&., to \fCself\fP )\&. 
 .PP
 \fBParameters\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance to which to prepend\&. 
 .br
-\fIstring\fP A pointer to another \fBfancy_string_t\fP instance whose internal data is to be prepended to \fCself\fP\&.
-.RE
-.PP
-\fBNote\fP
-.RS 4
-\fCstring\fP 's data gets copied\&.
+\fIstring\fP A pointer to another \fBfancy_string_t\fP instance whose internal data is to be copied and prepended to \fCself\fP \&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3687,18 +3655,13 @@ Prepends a string object's data to the current string object's internal state\&.
 .SS "\fBvoid\fP fancy_string_prepend_value (\fBfancy_string_t\fP *const self, \fBchar\fP const *const value)"
 
 .PP
-Prepends a value to the current string object's internal state\&. 
+Prepends a (string) value to the current string object's internal state\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance to which to prepend \fCvalue\fP\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance to which to prepend a copy of \fCvalue\fP \&. 
 .br
-\fIvalue\fP The value to be prepended to the internal string data\&.
-.RE
-.PP
-\fBNote\fP
-.RS 4
-The \fCvalue\fP gets copied\&.
+\fIvalue\fP The value (i\&.e\&., a pointer to a null-terminated string) to be prepended to the internal string data\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3716,9 +3679,9 @@ Prints (i\&.e\&., writes) the string object's data to the specified \fCstream\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance to be printed\&. 
 .br
-\fIstream\fP The stream to which to write (e\&.g\&., \fCstdout\fP)\&. 
+\fIstream\fP The stream to which to write (e\&.g\&., \fBstdout\fP )\&. 
 .br
-\fIdebug\fP Whether to use the debug format (\fCtrue\fP) or not (\fCfalse\fP)\&. With the debug format, additional information about the object and size is printed, while the standard format simply writes the string data as is\&. 
+\fIdebug\fP Whether to use the debug format (\fCtrue\fP) or not (\fCfalse\fP)\&. With the debug format, in addition to printing the data itself, information the container and the data size is also printed, while the standard format simply writes the string data as is\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -3808,9 +3771,9 @@ Prints a summary of the \fCself\fP regular expression object to the specified st
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_regex_t\fP instance to be printed\&. 
 .br
-\fIstream\fP A pointer to a valid 'readable' stream\&. 
+\fIstream\fP A pointer to a valid 'writable' stream (e\&.g\&., \fBstdout\fP )\&. 
 .br
-\fIverbose\fP A boolean value indicating whether (\fCtrue\fP) or not (\fCfalse\fP) to print extra information\&. That extra information, if present, will be prefixed with the word 'verbose'\&. 
+\fIverbose\fP A boolean value indicating whether (\fCtrue\fP) or not (\fCfalse\fP) to print extra information\&. That extra information, if present, will be prefixed with the word 'verbose' in the 'printout'\&. 
 .RE
 .PP
 
@@ -3828,7 +3791,7 @@ Destroys the regular expression object\&.
 .SS "\fBbool\fP fancy_string_regex_has_match (\fBfancy_string_regex_t\fP const *const self)"
 
 .PP
-Checks whether there was at least on match in the regular expression object pointed to by \fCself\fP \&. 
+Checks whether there was at least one match in the regular expression object pointed to by \fCself\fP \&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -4011,7 +3974,7 @@ Creates and returns a new string object whose internal string data is equivalent
 .RS 4
 \fIself\fP A pointer to a \fBfancy_string_regex_t\fP instance whose matches' values are replaced with \fCnew_string\fP to create a new string object based on the original one\&. 
 .br
-\fInew_string\fP A pointer to the \fBfancy_string_t\fP instance whose internal string data is to be used as replacement for that matches 
+\fInew_string\fP A pointer to the \fBfancy_string_t\fP instance whose internal string data is to be used as replacement for that matches\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -4160,7 +4123,7 @@ static void updater_callback(fancy_string_t *const match, size_t start, size_t e
 .SS "\fBvoid\fP fancy_string_replace (\fBfancy_string_t\fP *const self, \fBfancy_string_t\fP const *const old_substring, \fBfancy_string_t\fP const *const new_substring, \fBssize_t\fP replace_n)"
 
 .PP
-Replaces the specified number of occurrences (i\&.e\&., \fCreplace_n\fP) of \fCold_substring\fP 's internal value with \fCnew_substring\fP 's internal value in the string object's internal data\&. 
+Replaces the specified number of occurrences (i\&.e\&., \fCreplace_n\fP ) of \fCold_substring\fP 's internal value with \fCnew_substring\fP 's internal value in the string object's internal data\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -4175,94 +4138,94 @@ Replaces the specified number of occurrences (i\&.e\&., \fCreplace_n\fP) of \fCo
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_replace_value\fP \fBfancy_string_replaced_value\fP \fBfancy_string_replaced\fP 
+\fBfancy_string_replace_value\fP, \fBfancy_string_replaced_value\fP, \fBfancy_string_replaced\fP 
 .RE
 .PP
 
 .SS "\fBvoid\fP fancy_string_replace_value (\fBfancy_string_t\fP *const self, \fBchar\fP const *const old_value, \fBchar\fP const *const new_value, \fBssize_t\fP replace_n)"
 
 .PP
-Replaces the specified number of occurrences (i\&.e\&., \fCreplace_n\fP) of \fCold_value\fP with \fCnew_value\fP in the string object's internal data\&. 
+Replaces the specified number of occurrences (i\&.e\&., \fCreplace_n\fP ) of \fCold_value\fP with \fCnew_value\fP in the string object's internal data\&. 
 .PP
 \fBParameters\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance whose internal data is to be modified\&. 
 .br
-\fIold_value\fP A pointer to the pattern to be found and replaced with \fCnew_value\fP\&. 
+\fIold_value\fP A pointer to the pattern (i\&.e\&., a pointer to a null-terminated string) to be found and replaced with \fCnew_value\fP \&. 
 .br
-\fInew_value\fP A pointer to the value with which to replace occurrences of \fCold_value\fP\&. 
+\fInew_value\fP A pointer to the value (i\&.e\&., a pointer to a null-terminated string) with which to replace occurrences of \fCold_value\fP \&. 
 .br
-\fIreplace_n\fP The maximum number of times, starting from the beginning of the string, to replace \fCold_value\fP\&. Specifying \fCreplace_n = -1\fP will result in all occurrences being replaced\&. 
+\fIreplace_n\fP The maximum number of times, starting from the beginning of the string, to replace \fCold_value\fP \&. Specifying \fCreplace_n = -1\fP will result in all occurrences being replaced\&. 
 .RE
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_replace\fP \fBfancy_string_replaced_value\fP \fBfancy_string_replaced\fP 
+\fBfancy_string_replace\fP, \fBfancy_string_replaced_value\fP, \fBfancy_string_replaced\fP 
 .RE
 .PP
 
 .SS "\fBfancy_string_t\fP * fancy_string_replaced (\fBfancy_string_t\fP const *const self, \fBfancy_string_t\fP const *const old_substring, \fBfancy_string_t\fP const *const new_substring, \fBssize_t\fP replace_n)"
 
 .PP
-Creates a string object with the specified number of occurrences (i\&.e\&., \fCreplace_n\fP) of \fCold_substring\fP 's internal value replaced with \fCnew_substring\fP 's internal value\&. 
+Creates a string object with the specified number of occurrences (i\&.e\&., \fCreplace_n\fP ) of \fCold_substring\fP 's internal value replaced with \fCnew_substring\fP 's internal value\&. 
 .PP
 \fBParameters\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance whose internal data is to be copied and then modified\&. 
 .br
-\fIold_substring\fP A pointer to the pattern to be found and replaced with \fCnew_substring\fP\&. 
+\fIold_substring\fP A pointer to the pattern to be found and replaced with \fCnew_substring\fP \&. 
 .br
-\fInew_substring\fP A pointer to the value with which to replace occurrences of \fCold_substring\fP\&. 
+\fInew_substring\fP A pointer to the value with which to replace occurrences of \fCold_substring\fP \&. 
 .br
-\fIreplace_n\fP The maximum number of times, starting from the beginning of the string, to replace \fCold_substring\fP\&. Specifying \fCreplace_n = -1\fP will result in all occurrences being replaced\&. 
+\fIreplace_n\fP The maximum number of times, starting from the beginning of the string, to replace \fCold_substring\fP \&. Specifying \fCreplace_n = -1\fP will result in all occurrences being replaced\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP* A pointer to a newly created, memory-independent string object where \fCself\fP 's occurrences of \fCnew_substring\fP have been replaced with \fCold_substring\fP\&. 
+\fBfancy_string_t\fP* A pointer to a newly created, memory-independent string object where \fCreplace_n\fP 's occurrences of \fCnew_substring\fP have been replaced with \fCold_substring\fP \&. 
 .RE
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_replace_value\fP \fBfancy_string_replace\fP \fBfancy_string_replaced_value\fP 
+\fBfancy_string_replace_value\fP, \fBfancy_string_replace\fP, \fBfancy_string_replaced_value\fP 
 .RE
 .PP
 
 .SS "\fBfancy_string_t\fP * fancy_string_replaced_value (\fBfancy_string_t\fP const *const self, \fBchar\fP const *const old_value, \fBchar\fP const *const new_value, \fBssize_t\fP replace_n)"
 
 .PP
-Creates a string object with the specified number of occurrences (i\&.e\&., \fCreplace_n\fP) of \fCold_value\fP replaced with \fCnew_value\fP\&. 
+Creates a string object with the specified number of occurrences (i\&.e\&., \fCreplace_n\fP ) of \fCold_value\fP replaced with \fCnew_value\fP\&. 
 .PP
 \fBParameters\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance whose internal data is to be copied and then modified\&. 
 .br
-\fIold_value\fP A pointer to the pattern to be found and replaced with \fCnew_value\fP\&. 
+\fIold_value\fP A pointer to the pattern (i\&.e\&., a pointer to a null-terminated string) to be found and replaced with \fCnew_value\fP \&. 
 .br
-\fInew_value\fP A pointer to the value with which to replace occurrences of \fCold_value\fP\&. 
+\fInew_value\fP A pointer to the value (i\&.e\&., a pointer to a null-terminated string) with which to replace occurrences of \fCold_value\fP \&. 
 .br
-\fIreplace_n\fP The maximum number of times, starting from the beginning of the string, to replace \fCold_value\fP\&. Specifying \fCreplace_n = -1\fP will result in all occurrences being replaced\&. 
+\fIreplace_n\fP The maximum number of times, starting from the beginning of the string, to replace \fCold_value\fP \&. Specifying \fCreplace_n = -1\fP will result in all occurrences being replaced\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP* A pointer to a newly created, memory-independent string object where \fCself\fP 's occurrences of \fCnew_value\fP have been replaced with \fCold_value\fP\&. 
+\fBfancy_string_t\fP* A pointer to a newly created, memory-independent string object where \fCreplace_n\fP 's occurrences of \fCnew_value\fP have been replaced with \fCold_value\fP\&. 
 .RE
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_replace_value\fP \fBfancy_string_replace\fP \fBfancy_string_replaced\fP 
+\fBfancy_string_replace_value\fP, \fBfancy_string_replace\fP, \fBfancy_string_replaced\fP 
 .RE
 .PP
 
 .SS "\fBsize_t\fP fancy_string_size (\fBfancy_string_t\fP const *const self)"
 
 .PP
-Returns the size of the internal string data\&. 
+Returns the size of the object's internal string (conceptually the same as \fBstrlen()\fP )\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance for which the size is needed\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance for which the size is to be returned\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -4270,16 +4233,11 @@ Returns the size of the internal string data\&.
 \fBsize_t\fP A value corresponding to the size of the internal string data\&. 
 .RE
 .PP
-\fBNote\fP
-.RS 4
-Internally, C's \fCstrlen\fP function is called on the string\&. 
-.RE
-.PP
 
 .SS "\fBfancy_string_array_t\fP * fancy_string_split (\fBfancy_string_t\fP const *const self, \fBfancy_string_t\fP const *const separator, \fBssize_t\fP n_max_splits)"
 
 .PP
-Splits the string into an array (i\&.e\&., a list) of string objects based on the \fCseparator\fP string object\&. 
+Splits the string into an array (i\&.e\&., a list) of string objects based on the \fCseparator\fP string object's internal value\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -4287,12 +4245,12 @@ Splits the string into an array (i\&.e\&., a list) of string objects based on th
 .br
 \fIseparator\fP A pointer to the \fBfancy_string_t\fP instance whose internal data is to be used as the splitting pattern\&. 
 .br
-\fIn_max_splits\fP The maximum number of times to split (i\&.e\&., the maximum number of matches to act upon)\&. If this value set \fC-1\fP, there will be as many splits as there are matches found\&. If set to \fC0\fP, the method will simply return an array object with a single element containing a copy of the original string object\&. 
+\fIn_max_splits\fP The maximum number of times to split (i\&.e\&., the maximum number of matches to act upon)\&. If this value set to \fC-1\fP, there will be as many splits as there are matches found\&. If set to \fC0\fP, the method will simply return an array object with a single element containing a copy of the original string object\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_array_t\fP* A pointer to a newly created, memory-independent array object containing the 'splitted' string components\&.
+\fBfancy_string_array_t\fP* A pointer to a newly created, memory-independent array object containing the 'splitted' string components\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4310,14 +4268,14 @@ Splits the string into an array (i\&.e\&., a list) of string objects based on th
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance whose internal string is to be split\&. 
 .br
-\fIseparator\fP A string that contains the pattern to be used for splitting\&. 
+\fIseparator\fP A value (i\&.e\&., a pointer to a null-terminated string) that contains the pattern to be used for splitting\&. 
 .br
-\fIn_max_splits\fP The maximum number of times to split (i\&.e\&., the maximum number of matches to act upon)\&. If this value set \fC-1\fP, there will be as many splits as there are matches found\&. If set to \fC0\fP, the method will simply return an array object with a single element containing a copy of the original string object\&. 
+\fIn_max_splits\fP The maximum number of times to split (i\&.e\&., the maximum number of matches to act upon)\&. If this value is set \fC-1\fP, there will be as many splits as there are matches found\&. If set to \fC0\fP, the method will simply return an array object with a single element containing a copy of the original string object\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_array_t\fP* A pointer to a newly created, memory-independent array object containing the 'splitted' string components\&.
+\fBfancy_string_array_t\fP* A pointer to a newly created, memory-independent array object containing the 'splitted' string components\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4340,7 +4298,7 @@ Checks whether the string object's internal value starts with \fCstring\fP 's in
 .PP
 \fBReturns\fP
 .RS 4
-\fBbool\fP A value indicating whether the object's data starts with \fCstring\fP 's internal value (\fCtrue\fP) or not (\fCfalse\fP)\&. 
+\fBbool\fP A boolean value indicating whether the object's data starts with \fCstring\fP 's internal value (\fCtrue\fP) or not (\fCfalse\fP)\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4358,7 +4316,7 @@ Checks whether the string object's internal value starts with \fCvalue\fP\&.
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance to be checked\&. 
 .br
-\fIvalue\fP A value against which to check for 'leading equality'\&. 
+\fIvalue\fP A value (i\&.e\&., a pointer to a null-terminated string) against which to check for 'leading equality'\&. 
 .RE
 .PP
 \fBReturns\fP
@@ -4369,27 +4327,6 @@ Checks whether the string object's internal value starts with \fCvalue\fP\&.
 \fBSee also\fP
 .RS 4
 \fBfancy_string_starts_with\fP 
-.RE
-.PP
-\fBExample:\fP
-.RS 4
-
-.PP
-.nf
-#include <assert\&.h>
-#include "fancy_string\&.h"
-
-int main(void)
-{
-    fancy_string_t *s = fancy_string_create("Hello, World!");
-    assert(fancy_string_starts_with_value(s, "Hello"));
-    fancy_string_destroy(s);
-    return 0;
-}
-
-.fi
-.PP
- 
 .RE
 .PP
 
@@ -4414,7 +4351,7 @@ Creates a substring of a string object\&.
 .PP
 \fBNote\fP
 .RS 4
-This method is very permissive with its \fCstart\fP and \fCend\fP index values\&. For instance, if \fCstart\fP is greater than \fCend\fP, the two values will be swapped\&. Also, if \fCend\fP is out of bounds, the substring's upper bound will be set as \fCn - 1\fP\&. Finally, if the specified range is completely out of bounds, an empty string object will be returned\&. 
+This method is very permissive with its \fCstart\fP and \fCend\fP index values\&. For instance, if \fCstart\fP is greater than \fCend\fP, the two values will be swapped with one another\&. Also, if \fCend\fP is out of bounds, the substring's upper bound will be set as \fCn - 1\fP\&. Lastly, if the specified range is completely out of bounds, an empty string object will be returned\&. 
 .RE
 .PP
 \fBExample:\fP
@@ -4423,9 +4360,11 @@ This method is very permissive with its \fCstart\fP and \fCend\fP index values\&
 .PP
 .nf
 #include <assert\&.h>
+
 #include "fancy_string\&.h"
 
-int main(void) {
+int main(void)
+{
     fancy_string_t *s = fancy_string_create("this is a test");
     // end = 6 to get 0\&.\&.5 range
     fancy_string_t *s_sub = fancy_string_substring(s, 0, 6);
@@ -4444,7 +4383,7 @@ int main(void) {
 .SS "\fBvoid\fP fancy_string_trim (\fBfancy_string_t\fP *const self)"
 
 .PP
-Trims (i\&.e\&., remove all the white spaces) both the right and left-hand sides of the string object's internal values\&. 
+Trims (i\&.e\&., remove all the white spaces from) both the right and left-hand sides of the string object's internal values\&. 
 .PP
 \fBParameters\fP
 .RS 4
@@ -4460,11 +4399,11 @@ Trims (i\&.e\&., remove all the white spaces) both the right and left-hand sides
 .SS "\fBvoid\fP fancy_string_trim_left (\fBfancy_string_t\fP *const self)"
 
 .PP
-Trims (i\&.e\&., remove all the white spaces) the left-hand side of the string object's internal value\&. 
+Trims (i\&.e\&., remove all the white spaces from) the left-hand side of the string object's internal value\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be trimmed\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be trimmed left\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4476,11 +4415,11 @@ Trims (i\&.e\&., remove all the white spaces) the left-hand side of the string o
 .SS "\fBvoid\fP fancy_string_trim_right (\fBfancy_string_t\fP *const self)"
 
 .PP
-Trims (i\&.e\&., remove all the white spaces) the right-hand side of the string object's internal value\&. 
+Trims (i\&.e\&., remove all the white spaces from) the right-hand side of the string object's internal value\&. 
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be trimmed\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance to be trimmed right\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4501,7 +4440,7 @@ Creates a trimmed version of the string object (i\&.e\&., a version with all the
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP* A pointer to a new, memory-independent string object that is the same as \fCself\fP, except that it has been trimmed at both the right and the left\&. 
+\fBfancy_string_t\fP* A pointer to a new, memory-independent string object that is the same as \fCself\fP , except that it has been trimmed at both the right and the left\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4517,17 +4456,17 @@ Creates a left-hand-trimmed version of the string object (i\&.e\&., a version wi
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance for which to create a trimmed copy\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance for which to create a left-trimmed copy\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP* A pointer to a new, memory-independent string object that is the same as \fCself\fP, except that it has been trimmed at the left\&. 
+\fBfancy_string_t\fP* A pointer to a new, memory-independent string object that is the same as \fCself\fP , except that it has been trimmed at the left\&. 
 .RE
 .PP
 \fBSee also\fP
 .RS 4
-\fBfancy_string_trim_left\fP\&. 
+\fBfancy_string_trim_left\fP 
 .RE
 .PP
 
@@ -4538,12 +4477,12 @@ Creates a right-hand-trimmed version of the string object (i\&.e\&., a version w
 .PP
 \fBParameters\fP
 .RS 4
-\fIself\fP A pointer to the \fBfancy_string_t\fP instance for which to create a trimmed copy\&. 
+\fIself\fP A pointer to the \fBfancy_string_t\fP instance for which to create a right-trimmed copy\&. 
 .RE
 .PP
 \fBReturns\fP
 .RS 4
-\fBfancy_string_t\fP* A pointer to a new, memory-independent string object that is the same as \fCself\fP, except that it has been trimmed at the right\&. 
+\fBfancy_string_t\fP* A pointer to a new, memory-independent string object that is the same as \fCself\fP , except that it has been trimmed at the right\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4555,13 +4494,13 @@ Creates a right-hand-trimmed version of the string object (i\&.e\&., a version w
 .SS "\fBvoid\fP fancy_string_update (\fBfancy_string_t\fP *const self, \fBfancy_string_t\fP const *const string)"
 
 .PP
-Updates the internal state of the string object using that of another string object (i\&.e\&., \fCstring\fP)\&. 
+Updates the internal state of the string object using that of another string object (i\&.e\&., \fCstring\fP )\&. 
 .PP
 \fBParameters\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance whose value needs updating\&. 
 .br
-\fIstring\fP A pointer to another \fBfancy_string_t\fP instance whose internal state is to be copied inside \fCself\fP\&.
+\fIstring\fP A pointer to another \fBfancy_string_t\fP instance whose internal state is to be copied inside \fCself\fP \&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4573,18 +4512,18 @@ Updates the internal state of the string object using that of another string obj
 .SS "\fBvoid\fP fancy_string_update_value (\fBfancy_string_t\fP *const self, \fBchar\fP const *const value)"
 
 .PP
-Updates the internal state of the string object with the new string data (i\&.e\&., \fCvalue\fP)\&. 
+Updates the internal state of the string object with the new string data (i\&.e\&., \fCvalue\fP )\&. 
 .PP
 \fBParameters\fP
 .RS 4
 \fIself\fP A pointer to the \fBfancy_string_t\fP instance whose value needs updating\&. 
 .br
-\fIvalue\fP The value with which to replace the string object's internal state\&.
+\fIvalue\fP The value (i\&.e\&., a pointer to a null-terminated string) with which to replace the string object's internal state\&. 
 .RE
 .PP
 \fBNote\fP
 .RS 4
-The method makes a copy of the \fCvalue\fP, so if that \fCvalue\fP has been heap-allocated by the application, the application is responsible for freeing its memory when no longer needed\&.
+The method makes a copy of the \fCvalue\fP , so if that \fCvalue\fP has been heap-allocated by the application, the application is responsible for freeing its memory when no longer needed\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4605,7 +4544,7 @@ Applies an uppercase transformation to the string object's internal data\&.
 .PP
 \fBNote\fP
 .RS 4
-Internally, this method uses the \fBtoupper()\fP function defined in the C Standard Library \fC\fBctype\&.h\fP\fP header file\&. This means, among other things, that uppercasing of accented characters may not behave as expected\&. For instance, depending on the implementation, a character such as \fCà\fP will likely not be transformed to \fCÀ\fP\&. 
+Internally, this method uses the \fBtoupper()\fP function defined in the C Standard Library \fBctype\&.h\fP header file\&. This means, among other things, that uppercasing of accented characters may not behave as expected\&. For instance, depending on the implementation, a character such as \fCà\fP will likely not be transformed to \fCÀ\fP\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4631,7 +4570,7 @@ Creates a new string object whose internal data corresponds to a copy of \fCself
 .PP
 \fBNote\fP
 .RS 4
-Internally, this method uses the \fBtoupper()\fP function defined in the C Standard Library \fC\fBctype\&.h\fP\fP header file\&. This means, among other things, that uppercasing of accented characters may not behave as expected\&. For instance, depending on the implementation, a character such as \fCà\fP will likely not be transformed to \fCÀ\fP\&. 
+Internally, this method uses the \fBtoupper()\fP function defined in the C Standard Library \fBctype\&.h\fP header file\&. This means, among other things, that uppercasing of accented characters may not behave as expected\&. For instance, depending on the implementation, a character such as \fCà\fP will likely not be transformed to \fCÀ\fP\&. 
 .RE
 .PP
 \fBSee also\fP
@@ -4652,12 +4591,12 @@ Returns a pointer to a heap-allocated copy of the string object's internal state
 .PP
 \fBReturns\fP
 .RS 4
-\fBchar\fP* A pointer to a heap-allocated copy of the string object's internal state\&.
+\fBchar\fP* A pointer to a heap-allocated copy of the string object's internal state (i\&.e\&., a pointer to a null-terminated string)\&. 
 .RE
 .PP
 \fBWarning\fP
 .RS 4
-Calling this method creates an heap-alloacted copy of the string object's internal state, such that it becomes the application's responsibility to free that memory (using the stdlib's \fCfree\fP function) once it's no longer needed\&. 
+Calling this method creates an heap-alloacted copy of the string object's internal state, such that it becomes the application's responsibility to free that memory (using the standard library's \fBfree()\fP function) once it is no longer needed\&. 
 .RE
 .PP
 

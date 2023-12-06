@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lib_3cfancy_5fstring_3e_0',['lib&lt;fancy_string&gt;',['../index.html',1,'']]]
+  ['index_0',['index',['../fancy__string_8h.html#af6c73f7155bfd046d7eea2a3c3a04dfe',1,'fancy_string_regex_match_info_s']]]
 ];
